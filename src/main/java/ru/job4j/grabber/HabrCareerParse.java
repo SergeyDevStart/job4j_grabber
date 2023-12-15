@@ -7,6 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.StringJoiner;
 
 public class HabrCareerParse {
     private static final String SOURCE_LINK = "https://career.habr.com";
@@ -29,5 +30,12 @@ public class HabrCareerParse {
                 System.out.printf("%s %s %s%n", vacancyName, date.attr("datetime"), link);
             });
         }
+    }
+
+    private String retrieveDescription(String link) throws IOException {
+        Connection connection = Jsoup.connect(link);
+        Document document = connection.get();
+        Element row = document.selectFirst(".vacancy-description__text");
+        return row.text();
     }
 }
