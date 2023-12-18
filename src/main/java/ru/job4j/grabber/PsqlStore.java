@@ -1,8 +1,5 @@
 package ru.job4j.grabber;
 
-import ru.job4j.grabber.utils.HabrCareerDateTimeParser;
-
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,27 +18,6 @@ public class PsqlStore implements Store {
             );
         } catch (Exception e) {
             throw new IllegalStateException(e);
-        }
-    }
-
-    public static void main(String[] args) {
-        HabrCareerParse careerParse = new HabrCareerParse(new HabrCareerDateTimeParser());
-        String sourceLink = "https://career.habr.com/vacancies/java_developer?page=";
-        Properties properties = new Properties();
-        try (InputStream in = PsqlStore.class.getClassLoader().getResourceAsStream("app.properties")) {
-            properties.load(in);
-            try (PsqlStore psqlStore = new PsqlStore(properties)) {
-                List<Post> postsFromTheSite = careerParse.list(sourceLink);
-                for (Post post : postsFromTheSite) {
-                    psqlStore.save(post);
-                }
-                List<Post> postsFromTheDB = psqlStore.getAll();
-                Post testPost = psqlStore.finById(5);
-                System.out.println(postsFromTheDB.size());
-                System.out.println(testPost);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
         }
     }
 
