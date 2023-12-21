@@ -80,11 +80,11 @@ public class PsqlStore implements Store {
 
     private Post createPost(ResultSet resultSet) throws SQLException {
         return new Post(
-                resultSet.getInt(1),
-                resultSet.getString(2),
-                resultSet.getString(3),
-                resultSet.getString(4),
-                resultSet.getTimestamp(5).toLocalDateTime()
+                resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("link"),
+                resultSet.getString("text"),
+                resultSet.getTimestamp("created").toLocalDateTime()
         );
     }
 }
